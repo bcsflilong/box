@@ -1,0 +1,28 @@
+pkgname=fcitx-fbterm
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="Fbterm support for Fcitx."
+arch=('i686' 'x86_64')
+url="http://code.google.com/p/fcitx"
+license=('GPL2')
+depends=('fcitx>=4.1.0' 'fbterm')
+makedepends=('cmake' 'intltool')
+source=(https://download.fcitx-im.org/fcitx-fbterm/fcitx-fbterm-0.2.0.tar.xz)
+install=fcitx-fbterm.install
+
+build(){
+    cd "$srcdir/${pkgname}-${pkgver}"
+    rm -rf build
+    mkdir build
+    cd build
+    
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
+    make
+}
+
+package ()
+{
+    cd "$srcdir/${pkgname}-${pkgver}/build"
+    make DESTDIR=${pkgdir} install
+}
+md5sums=('a7eb80fde3e0d1cab27e230c912849da')
