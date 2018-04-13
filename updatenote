@@ -1,0 +1,25 @@
+#!/bin/sh
+# 批处理提交本地文件到csdn code 
+get_char()
+{
+SAVEDSTTY=`stty -g`
+stty -echo
+stty cbreak
+dd if=/dev/tty bs=1 count=1 2> /dev/null
+stty -raw
+stty echo
+stty $SAVEDSTTY
+}
+GIT_HOME=/home/tone/公共/git/box
+CIMMIT_INFO="`date` 更新文件"
+echo $CIMMIT_INFO
+cd $GIT_HOME
+git status
+git pull
+git status
+git add .
+git commit -m "${CIMMIT_INFO}"
+#git log
+git push origin master
+echo "Press any key to continue!"
+char=`get_char` 
